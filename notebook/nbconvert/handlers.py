@@ -104,7 +104,11 @@ class NbconvertFileHandler(IPythonHandler):
             )
         except Exception as e:
             raise web.HTTPError(500, "nbconvert failed: %s" % e)
-
+        
+        if format.lower() == 'pdf':
+            # workaround nbconvert bug where PDF leaves latex export side-outputs
+            # in resources, triggering zip response.
+            resources.pop('outputs', None)
         if respond_zip(self, name, output, resources):
             return
 
