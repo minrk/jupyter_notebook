@@ -19,4 +19,4 @@ install:
 script:
     - python -c 'import os, pprint; pprint.pprint(dict(os.environ))'
     - 'if [[ $GROUP == js* ]]; then python -m notebook.jstest ${GROUP:3}; fi'
-    - 'if [[ $GROUP == python ]]; then nosetests --with-coverage --cover-package=notebook notebook; fi'
+    - 'if [[ $GROUP == python ]]; then nosetests -vsx notebook; fi'
