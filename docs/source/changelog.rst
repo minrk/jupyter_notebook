@@ -37,6 +37,8 @@ And various other fixes and improvements.
 4.1.0
 -----
 
+`Release Announcement <https://blog.jupyter.org/2016/01/08/notebook-4-1-release/>`_
+
 Bug fixes:
 
 - Properly reap zombie subprocesses
