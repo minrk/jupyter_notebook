@@ -2,20 +2,6 @@
 The Jupyter notebook
 ====================
 
-.. sidebar:: What's New in Jupyter Notebook
-   :subtitle: Release |release|
-
-   - Cell toolbar selector moved to View menu
-   - Restart & Run All Cells added to Kernel menu
-   - Multiple-cell selection and actions including cut, copy, paste and execute
-   - Command palette added for executing Jupyter actions
-   - Find and replace added to Edit menu
-
-   To upgrade to the release:
-   ``pip install notebook --upgrade``
-   or
-   ``conda upgrade notebook``
-
 .. toctree::
    :maxdepth: 1
    :caption: User Documentation
