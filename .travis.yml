@@ -6,7 +6,7 @@ cache:
         - $HOME/.cache/bower
 python:
     - 3.5.1  # Set to 3.5.1 since travis has not yet included as default for 3.5
-    - 2.7
+    # - 2.7
 
 sudo: false
 
@@ -15,10 +15,10 @@ env:
     - PATH=$TRAVIS_BUILD_DIR/pandoc:$PATH
   matrix:
     - GROUP=python
-    - GROUP=js/base
-    - GROUP=js/notebook
-    - GROUP=js/services
-    - GROUP=js/tree
+    # - GROUP=js/base
+    # - GROUP=js/notebook
+    # - GROUP=js/services
+    # - GROUP=js/tree
 
 before_install:
     - pip install --upgrade pip
