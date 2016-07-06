@@ -114,7 +114,7 @@ def is_hidden(abs_path, abs_root=''):
             # use x-access, not actual listing, in case of slow/large listings
             if not os.access(abs_path, os.X_OK | os.R_OK):
                 return True
-    
+
     # check UF_HIDDEN on any location up to root
     path = abs_path
     while path and path.startswith(abs_root) and path != abs_root:
@@ -129,10 +129,14 @@ def is_hidden(abs_path, abs_root=''):
         if getattr(st, 'st_flags', 0) & UF_HIDDEN:
             return True
         path = os.path.dirname(path)
-    
+
     if sys.platform == 'win32':
         try:
-            attrs = ctypes.windll.kernel32.GetFileAttributesW(py3compat.cast_unicode(abs_path))
+            # Strip trailing separator because FileAttributes('C:') is correct,
+            # while FileAttributes('C:\') gives the wrong answer.
+            attrs = ctypes.windll.kernel32.GetFileAttributesW(
+                py3compat.cast_unicode(abs_path).rstrip(os.sep)
+            )
         except AttributeError:
             pass
         else:
