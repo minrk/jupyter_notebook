@@ -204,6 +204,10 @@ def find_package_data():
 def check_package_data(package_data):
     """verify that package_data globs make sense"""
     print("checking package data")
+    for dir,subdirs,files in os.walk(name):
+        for file in files:
+            print('%s/%s' % (dir, file))
+    
     for pkg, data in package_data.items():
         pkg_root = pjoin(*pkg.split('.'))
         for d in data:
