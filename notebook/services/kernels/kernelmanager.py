@@ -289,38 +289,39 @@ class MappingKernelManager(MultiKernelManager):
         # return a Future that will resolve when the kernel has successfully restarted
         channel = kernel.connect_shell()
         future = Future()
-        
+
         def finish():
             """Common cleanup when restart finishes/fails for any reason."""
             if not channel.closed():
                 channel.close()
             loop.remove_timeout(timeout)
             kernel.remove_restart_callback(on_restart_failed, 'dead')
-        
+
         def on_reply(msg):
             self.log.debug("Kernel info reply received: %s", kernel_id)
             finish()
             if not future.done():
                 future.set_result(msg)
-            
+
         def on_timeout():
             self.log.warning("Timeout waiting for kernel_info_reply: %s", kernel_id)
             finish()
             if not future.done():
                 future.set_exception(gen.TimeoutError("Timeout waiting for restart"))
-        
+
         def on_restart_failed():
             self.log.warning("Restarting kernel failed: %s", kernel_id)
             finish()
             if not future.done():
                 future.set_exception(RuntimeError("Restart failed"))
-        
+
         kernel.add_restart_callback(on_restart_failed, 'dead')
         kernel.session.send(channel, "kernel_info_request")
         channel.on_recv(on_reply)
         loop = IOLoop.current()
         timeout = loop.add_timeout(loop.time() + self.kernel_info_timeout, on_timeout)
-        raise gen.Return(future)
+        # wait for restart to complete
+        yield future
 
     def notify_connect(self, kernel_id):
         """Notice a new connection to a kernel"""
